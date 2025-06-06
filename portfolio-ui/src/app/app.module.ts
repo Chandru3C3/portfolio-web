@@ -13,6 +13,8 @@ import { AboutComponent } from './pages/about/about.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { ExperienceComponent } from './pages/experience/experience.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // Add this
+import { HttpClientModule } from '@angular/common/http'; // Add this for service calls
 
 @NgModule({
   declarations: [
@@ -27,7 +29,10 @@ import { ExperienceComponent } from './pages/experience/experience.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule 
+    AppRoutingModule,
+    ReactiveFormsModule, // Required for reactive forms
+    FormsModule,         // Required for template-driven forms
+    HttpClientModule  
   ],
   providers: [],
   bootstrap: [AppComponent]

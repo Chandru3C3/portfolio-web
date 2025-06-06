@@ -1,3 +1,4 @@
+import { ContactServiceService, ContactFormData, ContactResponse } from './../../service/contact-service.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -22,35 +23,38 @@ export class ContactComponent implements OnInit {
     {
       icon: '✉',
       title: 'Email',
-      value: 'chandru.ravi.dev@email.com',
-      link: 'mailto:chandru.ravi.dev@email.com'
+      value: 'chandruravik3@gmail.com',
+      link: 'mailto:chandruravik3@gmail.com'
     },
     {
       icon: '📞',
       title: 'Phone',
-      value: '+1 (555) 123-4567',
-      link: 'tel:+15551234567'
+      value: '+91 9345306557',
+      link: 'tel:+919345306557'
     },
     {
       icon: '📍',
       title: 'Location',
-      value: 'San Francisco, CA'
+      value: 'Seevaram 3rd st, Seevaram, Perungudi, Chennai'
     },
     {
       icon: '💼',
       title: 'LinkedIn',
-      value: 'linkedin.com/in/chandru-java',
-      link: 'https://linkedin.com/in/chandru-java'
+      value: 'linkedin.com/in/chandru3c3/',
+      link: 'https://linkedin.com/in/chandru-r-54b474241'
     },
     {
       icon: '🔗',
       title: 'GitHub',
-      value: 'github.com/chandru-java',
-      link: 'https://github.com/chandru-java'
+      value: 'github.com/chandru3c3/',
+      link: 'https://github.com/Chandru3C3/portfolio-web'
     }
   ];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private contactService: ContactServiceService // Fixed: Uncommented and injected the service
+  ) {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -84,25 +88,55 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.contactForm.valid && !this.isSubmitting) {
-      this.isSubmitting = true;
-      this.submitMessage = '';
+  if (this.contactForm.valid && !this.isSubmitting) {
+    this.isSubmitting = true;
+    this.submitMessage = '';
+    
+    // Get form values
+    const formData: ContactFormData = {
+      name: this.contactForm.get('name')?.value,
+      email: this.contactForm.get('email')?.value,
+      subject: this.contactForm.get('subject')?.value,
+      message: this.contactForm.get('message')?.value
+    };
 
-      // Simulate form submission
-      setTimeout(() => {
-        this.submitMessage = 'Thank you for your message! I\'ll get back to you soon.';
-        this.contactForm.reset();
+    console.log('Sending form data:', formData); // DEBUG LOG
+    console.log('API URL:', 'http://localhost:8080/api/contact/send'); // DEBUG LOG
+
+    // Call the service
+    this.contactService.sendMessage(formData).subscribe({
+      next: (response: ContactResponse) => {
+        console.log('Success response:', response); // DEBUG LOG
+        if (response.success) {
+          this.submitMessage = response.message || 'Thank you for your message! I\'ll get back to you soon.';
+          this.contactForm.reset();
+        } else {
+          this.submitMessage = 'Sorry, there was an error sending your message. Please try again.';
+        }
         this.isSubmitting = false;
         
-        // Clear success message after 5 seconds
         setTimeout(() => {
           this.submitMessage = '';
         }, 5000);
-      }, 2000);
-    } else {
-      this.markFormGroupTouched();
-    }
+      },
+      error: (error) => {
+        console.error('Full error object:', error); // DETAILED DEBUG LOG
+        console.error('Error status:', error.status); // DEBUG LOG
+        console.error('Error message:', error.message); // DEBUG LOG
+        console.error('Error details:', error.error); // DEBUG LOG
+        
+        this.submitMessage = 'Sorry, there was an error sending your message. Please try again.';
+        this.isSubmitting = false;
+        
+        setTimeout(() => {
+          this.submitMessage = '';
+        }, 5000);
+      }
+    });
+  } else {
+    this.markFormGroupTouched();
   }
+}
 
   private markFormGroupTouched(): void {
     Object.keys(this.contactForm.controls).forEach(key => {
