@@ -8,7 +8,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   @Output() pageChange = new EventEmitter<string>();
 
-  heroText = 'A Software professional with 2.9 years of experience specializing in data integration gateways within the trading sector.';
+  heroText = 'A Software professional with 3+ years of experience specializing in data integration gateways within the trading sector.';
   displayText = '';
   
   ngOnInit(): void {
