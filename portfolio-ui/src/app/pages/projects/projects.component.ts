@@ -22,7 +22,7 @@ export class ProjectsComponent implements OnInit {
       description: 'A comprehensive online platform tailored for fund advisors. It facilitates seamless access to crucial information such as client Profiles, account summaries, transaction histories and detailed portfolio insights. Noteworthy is the real-time tracking of portolio values, providing advisors with up to the minute market data for informed decision making.',
       technologies: ['Java', 'Spring Boot', 'Kafka', 'PostgreSQL', 'Apache Camel', 'Apache Zookeeper'],
       links: [
-        { label: 'GitHub', url: '/projects' }
+        { label: 'GitHub', url: 'portfolio-web/projects' }
        
       ]
     },
@@ -31,7 +31,7 @@ export class ProjectsComponent implements OnInit {
       description: 'Desgined and implemented an equity calculation service and batches usig java within an MVC (Model-View-Controller) architecture.',
       technologies: ['Java', 'Spring WebFlux', 'Kafka', 'MongoDB', 'React', 'WebSocket'],
       links: [
-        { label: 'GitHub', url: '/projects' }
+        { label: 'GitHub', url: 'portfolio-web/projects' }
         
       ]
     },
