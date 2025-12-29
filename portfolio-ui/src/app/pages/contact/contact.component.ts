@@ -112,6 +112,7 @@ export class ContactComponent implements OnInit {
           this.contactForm.reset();
         } else {
           this.submitMessage = 'Sorry, there was an error sending your message. Please try again.';
+          this.contactForm.reset();
         }
         this.isSubmitting = false;
         
